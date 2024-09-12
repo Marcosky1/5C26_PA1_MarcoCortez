@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
+    public ObjectPool objectPool;
     public List<GameObject> enemies = new List<GameObject>();
     public float time_to_create = 4f;
     private float actual_time = 0f;
@@ -23,11 +24,10 @@ public class EnemyGenerator : MonoBehaviour
         actual_time += Time.deltaTime;
         if (time_to_create <= actual_time)
         {
-            GameObject enemy = Instantiate(enemies[Random.Range(0, enemies.Count)],
-            new Vector3(transform.position.x, Random.Range(limitInferior, limitSuperior), 0f), Quaternion.identity);
+            GameObject enemy = objectPool.GetObject(enemies[Random.Range(0, enemies.Count)]);
+            enemy.transform.position = new Vector3(transform.position.x, Random.Range(limitInferior, limitSuperior), 0f);
             enemy.GetComponent<Rigidbody2D>().velocity = new Vector2(-2f, 0);
             actual_time = 0f;
-            actualEnemies.Add(enemy);
         }
     }
 
@@ -58,4 +58,12 @@ public class EnemyGenerator : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Devolver el objeto al pool
+            objectPool.ReturnObject(other.gameObject);
+        }
+    }
 }
