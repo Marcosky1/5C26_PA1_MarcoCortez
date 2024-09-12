@@ -66,7 +66,7 @@ public class PlayerManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("CurrentScore", score); 
         guiManager.SaveScore(score); 
-        SceneManager.LoadScene("GameOverScene"); 
+        SceneManager.LoadScene("GameOver"); 
     }
 
     public void AddScore(int points)
