@@ -50,15 +50,18 @@ public class ObjectPool : MonoBehaviour
 
     public void ReturnObject(GameObject obj)
     {
-        obj.SetActive(false);
-        foreach (var pool in poolDictionary.Values)
+        if (obj != null)
         {
-            if (pool.Count > 0 && pool.Peek().name == obj.name)
+            obj.SetActive(false);
+            foreach (var entry in poolDictionary)
             {
-                pool.Enqueue(obj);
-                return;
+                if (entry.Key == obj)
+                {
+                    entry.Value.Enqueue(obj);
+                    return;
+                }
             }
+            Destroy(obj);
         }
-        Destroy(obj);
     }
 }

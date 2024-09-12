@@ -63,8 +63,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            touchPosition.z = 0; 
-            targetPosition = (Vector2)touchPosition;
+            targetPosition = touchPosition;
             Debug.Log("Tap");
             isMoving = true;
         }
